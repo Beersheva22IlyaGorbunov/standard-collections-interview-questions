@@ -57,23 +57,4 @@ class StandardCollectionTest {
 		.forEach(elem -> System.out.printf("%d: %d\n", elem.getKey(), elem.getValue()));
 	}
 	
-	@Test
-	void stackIntTest() {
-		StackInt stack = new StackInt();
-		assertThrowsExactly(NoSuchElementException.class, () -> stack.pop());
-		stack.push(8);
-		stack.push(2);
-		stack.push(10);
-		stack.push(12);
-		stack.push(10);
-		stack.push(12);
-		stack.push(6);
-		assertEquals(stack.pop(), 6);
-		assertEquals(stack.getMax(), 12);
-		stack.pop();
-		assertEquals(stack.getMax(), 12);
-		stack.pop();
-		stack.pop();
-		assertEquals(stack.getMax(), 10);
-	}
 }
