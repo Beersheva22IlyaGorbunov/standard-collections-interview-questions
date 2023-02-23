@@ -50,11 +50,10 @@ class StandardCollectionTest {
 		//Generate 1_000_000 random numbers in [1, Integer.MAX_VALUE)
 		//Display digits and counters of their occurrences in descending order of the counts
 		//consider using flatMap
-		new Random().ints(1_000_000, 1, Integer.MAX_VALUE - 1).mapToObj(num -> Integer.toString(num))
-		.flatMapToInt(String::chars).map(Character::getNumericValue).boxed()
-		.collect(Collectors.groupingBy(num -> num, Collectors.counting()))
+		new Random().ints(1_000_000, 1, Integer.MAX_VALUE).flatMap(num -> Integer.toString(num).chars())
+		.boxed().collect(Collectors.groupingBy(num -> num, Collectors.counting()))
 		.entrySet().stream().sorted((a, b) -> Long.compare(b.getValue(), a.getValue()))
-		.forEach(elem -> System.out.printf("%d: %d\n", elem.getKey(), elem.getValue()));
+		.forEach(elem -> System.out.printf("%c: %d\n", elem.getKey(), elem.getValue()));
 	}
 	
 }

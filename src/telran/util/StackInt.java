@@ -3,25 +3,26 @@ package telran.util;
 import java.util.LinkedList;
 
 public class StackInt {
-	private LinkedList<Integer> list = new LinkedList<>();
+	private LinkedList<Integer> numbers = new LinkedList<>();
 	private LinkedList<Integer> maxValues = new LinkedList<>();
 	
 	public void push(int number) {
-		list.add(number);
-		if (maxValues.size() > 0 && maxValues.getLast() > number) {
-			maxValues.add(maxValues.getLast());
-		} else {
+		numbers.add(number);
+		if (maxValues.isEmpty() || number >= maxValues.getLast()) {
 			maxValues.add(number);
 		}
 	}
 	
 	public int pop() {
-		maxValues.removeLast();
-		return list.removeLast();
+		int num = numbers.removeLast();
+		if (maxValues.getLast() == num) {
+			maxValues.removeLast();
+		}
+		return num;
 	}
 	
 	public boolean isEmpty() {
-		return list.isEmpty();
+		return numbers.isEmpty();
 	}
 	
 	public int getMax() {
