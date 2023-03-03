@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import telran.structure.MultiCounter;
+import telran.structure.MultiCounters;
+import telran.structure.MultiCountersImpl;
 
 class MultiCounterTest {
 
@@ -15,7 +16,7 @@ class MultiCounterTest {
 
 	@Test
 	void multiCounterTest() {
-		MultiCounter multiCounter = new MultiCounter();
+		MultiCounters multiCounter = new MultiCountersImpl();
 		assertEquals(1, multiCounter.addItem(5));
 		assertEquals(2, multiCounter.addItem(5));
 		assertEquals(2, multiCounter.getValue(5));

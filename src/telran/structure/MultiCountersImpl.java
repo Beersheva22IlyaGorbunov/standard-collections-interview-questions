@@ -1,5 +1,7 @@
 package telran.structure;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -7,8 +9,9 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
-public class MultiCounter implements MultiCounters {
+public class MultiCountersImpl implements MultiCounters {
 	Map<Object, Integer> map = new HashMap<>();
 	NavigableMap<Integer, HashSet<Object>> tree = new TreeMap<>();
 
@@ -20,13 +23,15 @@ public class MultiCounter implements MultiCounters {
 		} else {
 			removeFromTree(item, res);
 		}
+		
+		map.forEach(null);
 		map.put(item, ++res);
 		addToSetInTree(item, res);
 		return res;
 	}
 
 	private void removeFromTree(Object item, Integer key) {
-		HashSet<Object> currentSet = tree.get(key);
+		Set<Object> currentSet = tree.get(key);
 		currentSet.remove(item);
 		if (currentSet.isEmpty()) {
 			tree.remove(key);
@@ -34,14 +39,12 @@ public class MultiCounter implements MultiCounters {
 	}
 
 	private void addToSetInTree(Object item, Integer key) {
-		HashSet<Object> foundedSet = tree.get(key);
-		if (foundedSet == null) {
-			HashSet<Object> newSet = new HashSet<>();
-			newSet.add(item);
-			tree.put(key, newSet);
-		} else {
-			foundedSet.add(item);
+		HashSet<Object> set = tree.get(key);
+		if (set == null) {
+			set = new HashSet<>();
+			tree.put(key, set);
 		}
+		set.add(item);	
 	}
 
 	@Override
@@ -60,12 +63,8 @@ public class MultiCounter implements MultiCounters {
 
 	@Override
 	public Set<Object> getMaxItems() {
-		Set<Object> res = new HashSet<>();
 		Entry<Integer, HashSet<Object>> maxItems = tree.lastEntry();
-		if (maxItems != null) {
-			res = maxItems.getValue();
-		}
-		return res;
+		return maxItems != null ? maxItems.getValue() : Collections.emptySet();
 	}
 
 }
